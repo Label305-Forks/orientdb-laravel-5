@@ -55,7 +55,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface {
 	 */
 	public function getLast()
 	{
-		$query = $this->table()->where('batch', $this->getLastBatchNumber());
+		$query = $this->table()->where('number', $this->getLastBatchNumber());
 
 		return $query->orderBy('migration', 'desc')->get();
 	}
@@ -69,7 +69,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface {
 	 */
 	public function log($file, $batch)
 	{
-		$record = array('migration' => $file, 'batch' => $batch);
+		$record = array('migration' => $file, 'number' => $batch);
 
 		$this->table()->insert($record);
 	}
@@ -102,7 +102,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface {
 	 */
 	public function getLastBatchNumber()
 	{
-		return $this->table()->max('batch');
+		return $this->table()->max('number');
 	}
 
 	/**
@@ -121,7 +121,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface {
 			// table to hold the migration file's path as well as the batch ID.
 			$table->string('migration');
 
-			$table->integer('batch');
+			$table->integer('number');
 		})->save();
 	}
 
